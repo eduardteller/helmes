@@ -1,7 +1,3 @@
-DROP TABLE IF EXISTS submission_sector;
-DROP TABLE IF EXISTS user_submission;
-DROP TABLE IF EXISTS sector;
-
 CREATE TABLE sector (
                         id BIGINT PRIMARY KEY,
                         name VARCHAR(255) NOT NULL,
