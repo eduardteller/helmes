@@ -3,6 +3,7 @@ package com.example.helmes.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+// sector dto class, entry has children array instead of parent id as in the Sector model
 public class SectorDTO {
     private Long id;
     private String name;
@@ -15,6 +16,8 @@ public class SectorDTO {
         this.id = id;
         this.name = name;
     }
+
+    // Getters and setters
 
     public Long getId() {
         return id;

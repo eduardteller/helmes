@@ -7,7 +7,7 @@ import java.util.Objects;
 @Table(name = "sector")
 public class Sector {
 
-    //define the table structure
+    //table structure
 
     @Id
     private Long id;
@@ -52,20 +52,5 @@ public class Sector {
 
     public void setParent(Sector parent) {
         this.parent = parent;
-    }
-
-    // Override equals and hashCode for Set and Map to work correctly
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Sector sector = (Sector) o;
-        return Objects.equals(id, sector.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }

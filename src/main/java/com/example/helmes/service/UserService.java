@@ -24,16 +24,21 @@ public class UserService {
         this.sectorRepository = sectorRepository;
     }
 
+    // save new user
     public UserDTO saveUser(UserDTO userDTO) {
         User user = convertToEntity(userDTO);
         User savedUser = userRepository.save(user);
         return convertToDTO(savedUser);
     }
 
+    // update existing user by id
     public UserDTO updateUser(Long id, UserDTO userDTO) {
+
+        // find existing user by id, if not found, throw exception
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("not found: " + id));
 
+        // update user fields
         existingUser.setName(userDTO.getName());
         existingUser.setAgreeToTerms(userDTO.isAgreeToTerms());
 
@@ -43,16 +48,19 @@ public class UserService {
                 .collect(Collectors.toList());
         existingUser.setSectors(sectors);
 
+        // save updated user and convert to DTO and return
         User savedUser = userRepository.save(existingUser);
         return convertToDTO(savedUser);
     }
 
+    // get user by id and convert to UserDTO and return
     public UserDTO getUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
         return convertToDTO(user);
     }
 
+    // convert UserDTO to User
     private User convertToEntity(UserDTO userDTO) {
         User user = new User();
         user.setName(userDTO.getName());
@@ -65,6 +73,7 @@ public class UserService {
         return user;
     }
 
+    // convert User to UserDTO
     private UserDTO convertToDTO(User user) {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());

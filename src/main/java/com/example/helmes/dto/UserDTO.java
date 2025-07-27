@@ -2,6 +2,7 @@ package com.example.helmes.dto;
 
 import java.util.List;
 
+// user dto class, sectors are just array of ids as int and not references to Sector objects
 public class UserDTO {
     private Long id;
     private String name;

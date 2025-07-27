@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+// main controller for the API
 @RestController
 @RequestMapping("/api")
 public class ApiController {
@@ -27,6 +28,7 @@ public class ApiController {
         this.userService = userService;
     }
 
+    // endpoint that returns all the sectors from db as a list of SectorDTO
     @GetMapping("/sectors")
     public ResponseEntity<?> returnSectors() {
         try {
@@ -41,10 +43,10 @@ public class ApiController {
         }
     }
 
+    // endpoint that returns a user by id as UserDTO
     @GetMapping("/users/{id}")
     public ResponseEntity<?> getUser(@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
-
         try {
             UserDTO user = userService.getUserById(id);
             return ResponseEntity.ok(user);
@@ -59,10 +61,12 @@ public class ApiController {
         }
     }
 
+    // endpoint that creates a new user and returns the created user as UserDTO
     @PostMapping("/users")
     public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
         Map<String, Object> response = new HashMap<>();
 
+        //validate params
         if (userDTO.getName() == null || userDTO.getName().trim().isEmpty()) {
             response.put("status", "error");
             response.put("nameError", "name empty");
@@ -82,10 +86,12 @@ public class ApiController {
             response.put("termsError", "terms false");
         }
 
+        // if there are any errors return the error object
         if(!response.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
+        // if no errors, save the user
         try {
             UserDTO savedUser = userService.saveUser(userDTO);
             return ResponseEntity.ok(savedUser);
@@ -96,10 +102,12 @@ public class ApiController {
         }
     }
 
+    // endpoint that updates an existing user. finds user by id and returns the updated user as UserDTO
     @PostMapping("/users/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
         Map<String, Object> response = new HashMap<>();
 
+        // validate params
         if (userDTO.getName() == null || userDTO.getName().trim().isEmpty()) {
             response.put("status", "error");
             response.put("nameError", "name empty");
@@ -119,10 +127,12 @@ public class ApiController {
             response.put("termsError", "terms false");
         }
 
+        // if there are any errors return the error object
         if(!response.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
+        // if no errors, update the user
         try {
             UserDTO updatedUser = userService.updateUser(id, userDTO);
             return ResponseEntity.ok(updatedUser);

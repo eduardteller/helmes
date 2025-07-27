@@ -1,3 +1,4 @@
+// when page is loaded, setup functions are executed
 document.addEventListener('DOMContentLoaded', function() {
     fetchSectors().then(() => {
         setupFormSubmission();
@@ -6,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// fetches all the sectors from backend and populates the selector
 function fetchSectors() {
     return fetch('/api/sectors')
         .then(response => {
@@ -22,9 +24,11 @@ function fetchSectors() {
         });
 }
 
+// populates the sectors dropdown recursivley with the fetched sectors
 function populateSectorsDropdown(sectors, level = 0) {
     const selectElement = document.getElementById('sectors');
 
+    // clear the dropdown initially
     if (level === 0) {
         selectElement.innerHTML = '';
     }
@@ -33,6 +37,7 @@ function populateSectorsDropdown(sectors, level = 0) {
         const option = document.createElement('option');
         option.value = sector.id;
 
+        // indent depends on the level
         let indent = '';
         for (let i = 0; i < level; i++) {
             indent += '&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -50,19 +55,21 @@ function populateSectorsDropdown(sectors, level = 0) {
 function setupFormSubmission() {
     const form = document.querySelector('form');
 
-    // errors
+    // error element references
     const nameError = document.getElementById('nameError');
     const sectorsError = document.getElementById('sectorsError');
     const agreeError = document.getElementById('agreeError');
 
-    // elements
+    // form element references
     const nameInput = document.getElementById('name');
     const sectorsSelect = document.getElementById('sectors');
     const agreeCheckbox = document.querySelector('input[name="agree"]');
     const submitButton = document.querySelector('button[type="submit"]');
 
+    // response message element reference
     const responseMessage = document.getElementById('responseMessage');
 
+    // listen for form submission
     form.addEventListener('submit', function(event) {
         event.preventDefault();
 
@@ -96,6 +103,7 @@ function setupFormSubmission() {
         }
 
         if (isValid) {
+            // if valid construct form data
             const formData = {
                 name: nameInput.value,
                 sectors: Array.from(sectorsSelect.selectedOptions).map(option => parseInt(option.value)),
@@ -109,12 +117,15 @@ function setupFormSubmission() {
             }
 
             console.log('data:', formData);
+
+            // prepare url for either create or update user
             const url = userId ? `/api/users/${userId}` : '/api/users';
 
-            // Disable submit button while saving
+            // disable submit button to prevent multiple submissions
             submitButton.disabled = true;
             submitButton.textContent = 'Saving...';
 
+            // update/create via request backend api
             fetch(url, {
                 method: 'POST',
                 headers: {
@@ -124,10 +135,12 @@ function setupFormSubmission() {
             })
             .then(response => response.json())
             .then(data => {
-                // Re-enable submit button
+
+                // enable submit button after response
                 submitButton.disabled = false;
                 submitButton.textContent = 'Save';
 
+                //if error show red error message
                 if (data.status === 'error') {
                     responseMessage.textContent = 'Error: ' + Object.values(data).filter(v => typeof v === 'string' && v !== 'error').join(', ');
                     responseMessage.style.backgroundColor = '#ffdddd';
@@ -135,7 +148,7 @@ function setupFormSubmission() {
                     responseMessage.style.display = 'block';
 
                 } else {
-                    // success
+                    // if success show green success message
                     if(userId){
                         responseMessage.textContent = 'User updated successfully!';
                     } else {
@@ -145,20 +158,23 @@ function setupFormSubmission() {
                     responseMessage.style.color = 'green';
                     responseMessage.style.display = 'block';
 
+                    // save userId to localStorage if not already saved
                     if (!userId && data.id) {
                         localStorage.setItem('userId', data.id);
                         console.log('saved session:', data.id);
                         checkSession();
                     }
 
+                    // fill form with user data
                     fillFormWithUserData(data);
                 }
             })
             .catch(error => {
-                // Re-enable submit button
+                // enable submit button after error
                 submitButton.disabled = false;
                 submitButton.textContent = 'Save';
 
+                // show error message
                 console.error('Error:', error);
                 responseMessage.textContent = 'error occured';
                 responseMessage.style.backgroundColor = '#ffdddd';
@@ -169,6 +185,7 @@ function setupFormSubmission() {
     });
 }
 
+// fills the form with user data if available
 function fillFormWithUserData(userData) {
     if (!userData) return;
 
@@ -197,6 +214,7 @@ function fillFormWithUserData(userData) {
     }
 }
 
+// sets up the session reset button to clear localStorage and reload the page
 function setupSessionReset() {
     const newSessionBtn = document.getElementById('newSessionBtn');
 
@@ -208,6 +226,7 @@ function setupSessionReset() {
     }
 }
 
+// checks if there is a session stored in localStorage and displays the reset button and fetches the user data if specified
 function checkSession(initial = false) {
     const userId = localStorage.getItem('userId');
     const newSessionBtn = document.getElementById('newSessionBtn');
@@ -226,6 +245,7 @@ function checkSession(initial = false) {
     }
 }
 
+// retrieves the saved user data from the backend using the userId stored in localStorage
 async function getSavedUser(id) {
     const responseMessage = document.getElementById('responseMessage');
     try {
