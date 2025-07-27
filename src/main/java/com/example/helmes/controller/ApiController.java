@@ -22,7 +22,6 @@ public class ApiController {
     private final SectorService sectorService;
     private final UserService userService;
 
-    @Autowired
     public ApiController(SectorService sectorService, UserService userService) {
         this.sectorService = sectorService;
         this.userService = userService;
