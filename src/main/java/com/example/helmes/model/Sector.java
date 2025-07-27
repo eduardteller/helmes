@@ -7,6 +7,8 @@ import java.util.Objects;
 @Table(name = "sector")
 public class Sector {
 
+    //define the table structure
+
     @Id
     private Long id;
 
@@ -16,6 +18,8 @@ public class Sector {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id", foreignKey = @ForeignKey(name = "fk_parent_sector"))
     private Sector parent;
+
+    //constructors, getters and setters
 
     public Sector() {
     }
@@ -49,6 +53,8 @@ public class Sector {
     public void setParent(Sector parent) {
         this.parent = parent;
     }
+
+    // Override equals and hashCode for Set and Map to work correctly
 
     @Override
     public boolean equals(Object o) {

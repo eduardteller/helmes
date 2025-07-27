@@ -1,9 +1,9 @@
 # Tasks
 
-- [ ] Correct all of the deficiencies in index.html
+- [x] Correct all of the deficiencies in index.html
 
 - [ ] "Sectors" selectbox:
-    - [ ] 2.1. Add all the entries from the "Sectors" selectbox to database
+    - [x] 2.1. Add all the entries from the "Sectors" selectbox to database
     - [ ] 2.2. Compose the "Sectors" selectbox using data from database
 
 - [ ] Perform the following activities after the "Save" button has been pressed:
