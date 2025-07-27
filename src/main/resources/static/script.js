@@ -59,6 +59,7 @@ function setupFormSubmission() {
     const nameInput = document.getElementById('name');
     const sectorsSelect = document.getElementById('sectors');
     const agreeCheckbox = document.querySelector('input[name="agree"]');
+    const submitButton = document.querySelector('button[type="submit"]');
 
     const responseMessage = document.getElementById('responseMessage');
 
@@ -110,6 +111,10 @@ function setupFormSubmission() {
             console.log('data:', formData);
             const url = userId ? `/api/users/${userId}` : '/api/users';
 
+            // Disable submit button while saving
+            submitButton.disabled = true;
+            submitButton.textContent = 'Saving...';
+
             fetch(url, {
                 method: 'POST',
                 headers: {
@@ -119,6 +124,10 @@ function setupFormSubmission() {
             })
             .then(response => response.json())
             .then(data => {
+                // Re-enable submit button
+                submitButton.disabled = false;
+                submitButton.textContent = 'Save';
+
                 if (data.status === 'error') {
                     responseMessage.textContent = 'Error: ' + Object.values(data).filter(v => typeof v === 'string' && v !== 'error').join(', ');
                     responseMessage.style.backgroundColor = '#ffdddd';
@@ -146,6 +155,10 @@ function setupFormSubmission() {
                 }
             })
             .catch(error => {
+                // Re-enable submit button
+                submitButton.disabled = false;
+                submitButton.textContent = 'Save';
+
                 console.error('Error:', error);
                 responseMessage.textContent = 'error occured';
                 responseMessage.style.backgroundColor = '#ffdddd';
