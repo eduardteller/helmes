@@ -6,10 +6,8 @@ import com.example.helmes.repository.SectorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class SectorService {
@@ -22,7 +20,12 @@ public class SectorService {
     }
 
     public List<SectorDTO> getAllSectorsDTO() {
+        // get all sectors from the db
         List<Sector> allSectors = sectorRepository.findAll();
+
+        allSectors = allSectors.stream()
+                .sorted(Comparator.comparing(Sector::getName))
+                .toList();
 
         Map<Long, SectorDTO> sectorDTOMap = new HashMap<>();
 
@@ -45,6 +48,13 @@ public class SectorService {
                 }
             }
         }
+
+        // put "Other" at the end of the list
+        rootSectors.sort((a, b) -> {
+            if ("Other".equals(a.getName())) return 1;
+            if ("Other".equals(b.getName())) return -1;
+            return a.getName().compareTo(b.getName());
+        });
 
         return rootSectors;
     }
