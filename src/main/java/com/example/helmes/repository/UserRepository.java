@@ -1,6 +1,6 @@
 package com.example.helmes.repository;
 
-import com.example.helmes.entity.User;
+import com.example.helmes.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

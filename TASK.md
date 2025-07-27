@@ -9,8 +9,8 @@
 - [ ] Perform the following activities after the "Save" button has been pressed:
     - [x] 3.1. Validate all input data (all fields are mandatory)
     - [x] 3.2. Store all input data to database (Name, Sectors, Agree to terms)
-    - [ ] 3.3. Refill the form using stored data
-    - [ ] 3.4. Allow the user to edit his/her own data during the session
+    - [x] 3.3. Refill the form using stored data
+    - [x] 3.4. Allow the user to edit his/her own data during the session
 
 **Write us Your best code!**
 

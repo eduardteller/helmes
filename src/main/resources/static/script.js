@@ -1,12 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
-    fetchSectors();
-    setupFormSubmission();
-    loadSession();
-    newSession();
+    fetchSectors().then(() => {
+        setupFormSubmission();
+        checkSession(true);
+        setupSessionReset();
+    });
 });
 
 function fetchSectors() {
-    fetch('/api/sectors')
+    return fetch('/api/sectors')
         .then(response => {
             if (!response.ok) {
                 throw new Error('fetchSectors error');
@@ -138,7 +139,7 @@ function setupFormSubmission() {
                     if (!userId && data.id) {
                         localStorage.setItem('userId', data.id);
                         console.log('saved session:', data.id);
-                        loadSession();
+                        checkSession();
                     }
 
                     fillFormWithUserData(data);
@@ -183,7 +184,7 @@ function fillFormWithUserData(userData) {
     }
 }
 
-function newSession() {
+function setupSessionReset() {
     const newSessionBtn = document.getElementById('newSessionBtn');
 
     if (newSessionBtn) {
@@ -194,7 +195,7 @@ function newSession() {
     }
 }
 
-function loadSession() {
+function checkSession(initial = false) {
     const userId = localStorage.getItem('userId');
     const newSessionBtn = document.getElementById('newSessionBtn');
 
@@ -202,9 +203,38 @@ function loadSession() {
         if (newSessionBtn) {
             newSessionBtn.style.display = 'block';
         }
+        if(initial) {
+            getSavedUser(userId);
+        }
     } else {
         if (newSessionBtn) {
             newSessionBtn.style.display = 'none';
         }
+    }
+}
+
+async function getSavedUser(id) {
+    const responseMessage = document.getElementById('responseMessage');
+    try {
+        const url = `/api/users/${id}`;
+        const response = await fetch(url);
+        if (!response.ok) {
+            responseMessage.textContent = 'Error loading saved user data';
+            responseMessage.style.backgroundColor = '#ffdddd';
+            responseMessage.style.color = 'red';
+            responseMessage.style.display = 'block';
+        }
+        const data =  await response.json();
+        fillFormWithUserData(data);
+
+        responseMessage.textContent = 'Saved user data loaded successfully';
+        responseMessage.style.backgroundColor = '#ddffdd';
+        responseMessage.style.color = 'green';
+        responseMessage.style.display = 'block';
+    } catch (error) {
+        responseMessage.textContent = 'Error loading saved user data';
+        responseMessage.style.backgroundColor = '#ffdddd';
+        responseMessage.style.color = 'red';
+        responseMessage.style.display = 'block';
     }
 }

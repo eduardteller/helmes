@@ -1,6 +1,5 @@
-package com.example.helmes.entity;
+package com.example.helmes.model;
 
-import com.example.helmes.model.Sector;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;

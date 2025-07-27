@@ -41,6 +41,24 @@ public class ApiController {
         }
     }
 
+    @GetMapping("/users/{id}")
+    public ResponseEntity<?> getUser(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            UserDTO user = userService.getUserById(id);
+            return ResponseEntity.ok(user);
+        } catch (NoSuchElementException e) {
+            response.put("status", "error");
+            response.put("error", "User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        } catch (Exception e) {
+            response.put("status", "error");
+            response.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
     @PostMapping("/users")
     public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
         Map<String, Object> response = new HashMap<>();

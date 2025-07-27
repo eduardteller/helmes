@@ -1,7 +1,7 @@
 package com.example.helmes.service;
 
 import com.example.helmes.dto.UserDTO;
-import com.example.helmes.entity.User;
+import com.example.helmes.model.User;
 import com.example.helmes.model.Sector;
 import com.example.helmes.repository.UserRepository;
 import com.example.helmes.repository.SectorRepository;
@@ -45,6 +45,12 @@ public class UserService {
 
         User savedUser = userRepository.save(existingUser);
         return convertToDTO(savedUser);
+    }
+
+    public UserDTO getUserById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
+        return convertToDTO(user);
     }
 
     private User convertToEntity(UserDTO userDTO) {
