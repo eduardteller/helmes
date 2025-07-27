@@ -22,11 +22,6 @@ public class ApiController {
         this.sectorService = sectorService;
     }
 
-    @GetMapping("/test")
-    public String tere() {
-        return "tere!";
-    }
-
     @GetMapping("/get-sectors")
     public ResponseEntity<?> returnSectors() {
         try {
@@ -37,7 +32,7 @@ public class ApiController {
 //            e.printStackTrace();
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("error when getting sectors: " + e.getMessage());
+                    .body("error: " + e.getMessage());
         }
     }
 }
