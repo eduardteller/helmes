@@ -17,6 +17,9 @@ This is a implementation of Helmes test exercise by Eduard Teller.
    run `./gradlew bootRun` in the terminal to build and start the project.
 3. Open a web browser and navigate to `http://localhost:8080/` to access the application.
 
+## Code Review
+[Link to code review](CODE_REVIEW.md)
+
 ## DB dump:
 ```sql
 -- H2 2.3.232;
