@@ -13,7 +13,7 @@ This is an implementation of the Helmes test exercise by Eduard Teller.
 - Java Spring backend
 - H2 local file database
 - JPA for database access
-- Junit for backend tests
+- Junit, Mockito for backend tests
 
 ## Dependencies
 - Oracle JDK 21.0.8

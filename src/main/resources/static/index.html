@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Helmes</title>
+    <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
 <body>
@@ -15,7 +17,7 @@
         <br />
         <br />
         <label for="sectors">Sectors:</label>
-        <select id="sectors" name="sectors" multiple size="10">
+        <select id="sectors" name="sectors" multiple >
         </select>
         <div id="sectorsError" class="error-message" style="color: red; display: none;"></div>
         <br />
@@ -26,8 +28,10 @@
         <div id="agreeError" class="error-message" style="color: red; display: none;"></div>
         <br />
         <br />
-        <button type="submit">Save</button>
-        <button type="button" id="newSessionBtn">Start New Session</button>
+        <div class="button-container">
+            <button type="submit">Save</button>
+            <button type="button" id="newSessionBtn">Start New Session</button>
+        </div>
         <div id="responseMessage" style="margin: 10px 0; padding: 10px; display: none;"></div>
     </form>
 </main>
