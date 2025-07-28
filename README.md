@@ -1,5 +1,12 @@
 # Overview
-This is a implementation of Helmes test exercise by Eduard Teller.
+This is an implementation of the Helmes test exercise by Eduard Teller.
+
+## Functionality
+
+- User can add a new entry with name, sectors, and agreement to terms checkbox.
+- When a new entry is added, the system saves the session in the user's browser. All subsequent changes update the saved entry instead of creating a new one.
+- User can reset the session and start a new one via the corresponding button.
+- All entries are saved to and queried from the database via the backend through a REST API.
 
 ## System structure
 - Simple HTML and JavaScript frontend
